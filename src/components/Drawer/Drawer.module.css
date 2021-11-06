@@ -1,0 +1,18 @@
+
+   
+.header{
+    background: white !important; 
+    color: black !important;
+    box-shadow: inset 0 -1px 0 rgb(100 121 143 / 12%) !important;
+}
+
+.heading{
+    letter-spacing: .2px !important;
+    color: skyblue !important;
+    font-weight: bold;
+}
+
+.mainIcon{
+    color: skyblue !important;
+    font-size: 35px;
+}

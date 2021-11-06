@@ -1,15 +1,22 @@
 //dependencies
 import { useContext, useState } from 'react';
+import axios from 'axios';
 //context
 import UserContext from './user-context';
 
-const [isAuthenthenticated, setIsAuthenticated] = useState(false);
-const UserProvider = () => { 
+
+const UserProvider = (props) => { 
+
+    const [isAuthenthenticated, setIsAuthenticated] = useState(false);
+    const [authorization, setAuthorization] = useState({authorization: ''});
 
     return (
         <UserContext.Provider
             value={{
-                isAuthenthenticated
+                isAuthenthenticated,
+                setIsAuthenticated,
+                authorization,
+                setAuthorization,
             }}
         >
             {props.children}
