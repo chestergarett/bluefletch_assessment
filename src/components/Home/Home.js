@@ -39,6 +39,7 @@ const Home = () => {
         .then( (res)=> {
             setIsLoading(false)
             setAuthorization({...authorization, authorization: res.data.token})
+            localStorage.setItem('authorization', JSON.stringify({authorization: res.data.token}))
             setIsAuthenticated(true)
             navigate('/Landing')
         })

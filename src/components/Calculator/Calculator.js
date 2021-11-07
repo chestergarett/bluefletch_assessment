@@ -1,4 +1,18 @@
+//dependencies
 import { useState } from 'react';
+//components
+import Drawer from '../Drawer/Drawer';
+//material
+import { styled } from '@mui/material/styles';
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+}));
 
 const Calculator = () => {
     const [ result, setResult ] = useState('')
@@ -57,18 +71,21 @@ const Calculator = () => {
     }
 
     return (
-        <div>
-            {random_array.map(r=>{
-                return(
-                    <button name={r.value} onClick={(e)=>{ getInput(e.target.name) }}>{r.value}</button>
-                )
-            })}
-            {unrandom_array.map(r=>{
-                return(
-                    <button name={r.expression} onClick={(e)=>{ getInput(e.target.name) }}>{r.expression}</button>
-                )
-            })}
-        </div>
+        <Drawer>
+            <DrawerHeader/>
+            <div>
+                {random_array.map(r=>{
+                    return(
+                        <button name={r.value} onClick={(e)=>{ getInput(e.target.name) }}>{r.value}</button>
+                    )
+                })}
+                {unrandom_array.map(r=>{
+                    return(
+                        <button name={r.expression} onClick={(e)=>{ getInput(e.target.name) }}>{r.expression}</button>
+                    )
+                })}
+            </div>
+        </Drawer>
     )
 }
 

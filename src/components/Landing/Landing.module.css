@@ -1,0 +1,35 @@
+.userName{
+    color: #4267B2 !important;
+    font-weight: bold !important;
+    font-size: 15px !important;
+}
+
+.date{
+    font-size: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    color: gray !important;
+}
+
+.mainText{
+    margin-top: 1rem !important;
+    font-size: 15px !important;
+    color: black !important;
+}
+
+.container{
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.select{
+    display: flex !important;
+    width: 100% !important;
+    justify-content: flex-end !important;
+}
+
+.selectDropdown{
+    justify-content: flex-end;
+}
