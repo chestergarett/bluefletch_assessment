@@ -34,7 +34,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const Landing = () => {
-    const { authorization, feed, setFeed } = useContext(UserContext)
+    const { authorization, feed, setFeed, authors, setAuthors } = useContext(UserContext)
+    const [selectedAuthor, setSelectedAuthor] = useState('')
     const [limit, setLimit] = useState(5);
     const [isLoading, setIsLoading] = useState(false)
 
@@ -44,8 +45,12 @@ const Landing = () => {
             headers:  authorization 
         })
         .then( (res)=> {
-            console.log(res.data.slice(0,limit))
-            setFeed(res.data.slice(0,limit));
+            setAuthors( [...new Set(res.data.map(post=>post.user.username))])
+            if(selectedAuthor==''){
+                setFeed(res.data.slice(0,limit));
+            }else{
+                setFeed(res.data.filter(post=>post.user.username==selectedAuthor).slice(0,limit))
+            }
             setIsLoading(false);
         })
         .catch( (err)=>{
@@ -53,10 +58,14 @@ const Landing = () => {
             console.log(authorization);
             setIsLoading(false);
         })
-    }, [limit])
+    }, [selectedAuthor,limit])
 
     const handleChange = (event) => {
         setLimit(event.target.value)
+    }
+
+    const handleAuthorChange = (event) => {
+        setSelectedAuthor(event.target.value)
     }
 
     return(
@@ -65,6 +74,22 @@ const Landing = () => {
             {isLoading ? <LoadingSpinnerDark/> : 
                 <div className={classes.container}>
                     <div className={classes.select}>
+                    <FormControl>
+                            <InputLabel id="author-select">Author</InputLabel>
+                            <Select
+                                labelId="author-select"
+                                id="author-select-id"
+                                value={selectedAuthor}
+                                label="Author"
+                                onChange={handleAuthorChange}
+                                className={classes.selectDropdown}
+                                >
+                                {authors.map(author=>{ return (
+                                    <MenuItem value={author}>{author}</MenuItem>
+                                )})}
+                                    <MenuItem value={''}>View All</MenuItem>
+                            </Select>
+                        </FormControl>
                         <FormControl>
                             <InputLabel id="limit-select">Limit</InputLabel>
                             <Select

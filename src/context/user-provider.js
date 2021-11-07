@@ -8,6 +8,7 @@ const UserProvider = (props) => {
     const [isAuthenthenticated, setIsAuthenticated] = useState(false);
     const [authorization, setAuthorization] = useState({authorization: ''});
     const [feed, setFeed] = useState([])
+    const [authors, setAuthors] = useState([])
 
     return (
         <UserContext.Provider
@@ -17,7 +18,9 @@ const UserProvider = (props) => {
                 authorization,
                 setAuthorization,
                 feed,
-                setFeed
+                setFeed,
+                authors,
+                setAuthors
             }}
         >
             {props.children}

@@ -1,9 +1,15 @@
 //dependencies
-import { useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+//css
+import classes from './Calculator.module.css';
 //components
 import Drawer from '../Drawer/Drawer';
 //material
 import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -16,6 +22,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Calculator = () => {
     const [ result, setResult ] = useState('')
+    const [ history, setHistory ] = useState([])
+
     const random_array = [
         {value: "1" },
         {value: "2" },
@@ -26,17 +34,22 @@ const Calculator = () => {
         {value: "7" },
         {value: "8" },
         {value: "9" },
-    ];
+    ].sort( () => .5 - Math.random() );
 
     const unrandom_array = [
-        {expression: "="},
+        {expression: "CE"},
+        {expression: "C"},
+        {expression: "."},
         {expression: "+"},
         {expression: "/"},
         {expression: "*"},
         {expression: "-"},
-        {expression: "C"},
-        {expression: "CE"},
+        {expression: "="},
     ]
+
+    const shuffleCards = ( useMemo(()=>{
+        return random_array.sort( () => .5 - Math.random() );
+    }),[])
 
     const solve = () => { 
         try{
@@ -44,7 +57,8 @@ const Calculator = () => {
         }catch(e){
             setResult('error')
         }
-        console.log(result)
+        setHistory([...history, `${result}=${eval(result)}`])
+        console.log(history)
     }
 
     const reset = () => { 
@@ -52,7 +66,11 @@ const Calculator = () => {
     }
 
     const backspace = () => { 
-        setResult(result.slice(0,-1))
+        try{
+            setResult(result.slice(0,-1))
+        }catch(e){ 
+            setResult('error')
+        }
     }
 
     const getInput = (button) => { 
@@ -73,17 +91,35 @@ const Calculator = () => {
     return (
         <Drawer>
             <DrawerHeader/>
-            <div>
-                {random_array.map(r=>{
-                    return(
-                        <button name={r.value} onClick={(e)=>{ getInput(e.target.name) }}>{r.value}</button>
-                    )
-                })}
-                {unrandom_array.map(r=>{
-                    return(
-                        <button name={r.expression} onClick={(e)=>{ getInput(e.target.name) }}>{r.expression}</button>
-                    )
-                })}
+            <div className={classes.section}>
+                <div className={classes.main}>
+                    <TextField id="calculator-data-display" variant="outlined" className={classes.displayScreen} disabled value={result}/>
+                    <div className={classes.container}>
+                        <div className={classes.random_grid}>
+                        {random_array.map(r=>{
+                            return(
+                                <Button name={r.value} onClick={(e)=>{ getInput(e.target.name) }} variant="outlined" className={classes.randomButtons}>{r.value}</Button>
+                            )
+                        })}
+                        </div>
+                        <div className={classes.unrandom_grid}>
+                        {unrandom_array.map(r=>{
+                            return(
+                                <Button name={r.expression} onClick={(e)=>{ getInput(e.target.name) }} variant="outlined">{r.expression}</Button>
+                            )
+                        })}
+                        </div>
+                    </div>
+                </div>
+                <div className={classes.history}>
+                        <List>
+                            {history.slice(0).reverse().map(h => {
+                                return(
+                                    <ListItemText>{h}</ListItemText>
+                                )
+                            })}
+                        </List>
+                </div>
             </div>
         </Drawer>
     )
