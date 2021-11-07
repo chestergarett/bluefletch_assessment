@@ -41,7 +41,7 @@ const Landing = () => {
 
     useEffect( ()=> {
         setIsLoading(true);
-        axios.get('http://us-central1-bluefletch-learning-assignment.cloudfunctions.net/feed',{
+        axios.get('https://us-central1-bluefletch-learning-assignment.cloudfunctions.net/feed',{
             headers:  authorization 
         })
         .then( (res)=> {

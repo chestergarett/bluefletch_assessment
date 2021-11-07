@@ -35,7 +35,7 @@ const Home = () => {
             username: formData.username,
             password: formData.password
         } 
-        axios.post('http://us-central1-bluefletch-learning-assignment.cloudfunctions.net/account/login', qs.stringify(credentials))
+        axios.post('https://us-central1-bluefletch-learning-assignment.cloudfunctions.net/account/login', qs.stringify(credentials))
         .then( (res)=> {
             setIsLoading(false)
             setAuthorization({...authorization, authorization: res.data.token})
