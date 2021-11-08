@@ -31,7 +31,7 @@ const Signup = () => {
             firstname: formData.firstname,
             lastname: formData.lastname,
         } 
-        axios.post('http://us-central1-bluefletch-learning-assignment.cloudfunctions.net/account/create', qs.stringify(credentials))
+        axios.post('https://us-central1-bluefletch-learning-assignment.cloudfunctions.net/account/create', qs.stringify(credentials))
         .then( (res)=> {
             setIsLoading(false)
             setAuthorization({...authorization, authorization: res.data.token})
